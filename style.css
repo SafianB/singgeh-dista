@@ -119,7 +119,7 @@ body {
 
 
 .mynavbar {
-    background-color: rgba(225, 255, 255, 0.4) !important;
+    background-color: rgba(237, 215, 118, 0.4) !important;
     backdrop-filter: blur(3px);
 }
 
@@ -140,12 +140,13 @@ body {
 }
 
 .home{
-    background-image: url(img/Untitled\ design.png);
+    background-image: url(bg2jpg.jpg);
     background-size: cover;
     min-height: 100vh;
     margin-top: -4rem;
     padding-top: 9rem;
     padding-bottom: 5rem;
+    background-position: center;
 }
 
 .home h2{
@@ -156,13 +157,13 @@ body {
 }
 
 .home h3{
-    color: #444;
+    color: #000000;
     font-size: 1.5rem;
     margin-bottom: 1rem;
 }
 
 .home p{
-    color: #666;
+    color: #000000;
     font-size: 1.1rem;
 }
 
@@ -195,7 +196,7 @@ body {
 
 .home .heart i {
     margin: auto;
-    color: var(--pink);
+    color: rgb(223, 112, 130);
 }
 
 /* info */
@@ -207,7 +208,7 @@ body {
 }
 
 .info h2{
-    color: var(--pink);
+    color: var(--gold);
     font-family: "Caveat", serif;
     font-size: 5rem;
     font-weight: bold;
@@ -263,7 +264,7 @@ body {
 }
 
 .story h2{
-    color: var(--pink);
+    color: var(--gold);
     font-family: "Caveat", serif;
     font-size: 5rem;
     font-weight: bold;
@@ -379,7 +380,7 @@ body {
 .gallery{
     padding-top: 10rem;
     padding-bottom: 8rem;
-    background-color: #f1d2e0;
+    background-color: #e2d2a0;
 }
 
 .gallery span {
@@ -414,7 +415,7 @@ body {
 }
 
 .rsvp h2{
-    color: var(--pink);
+    color: var(--gold);
     font-family: "Caveat", serif;
     font-size: 4.5rem;
     font-weight: bold;
@@ -432,14 +433,14 @@ body {
 
 
 .rsvp button {
-    background-color: var(--pink);
+    background-color: var(--gold);
     color: white;
-    border: 1px solid var(--pink);
+    border: 1px solid var(--gold);
 }
 
 .rsvp button:hover{
     background-color: white;
-    color: var(--pink);
+    color: var(--gold);
     border: 1px solid white;
 }
 
@@ -451,7 +452,7 @@ body {
 }
 
 .gifts h2{
-    color: var(--pink);
+    color: var(--gold);
     font-family: "Caveat", serif;
     font-size: 4.5rem;
     font-weight: bold;
@@ -475,7 +476,7 @@ body {
 /* footer */
 footer {
     padding: 3rem;
-    background-color: var(--pink);
+    background-color: var(--gold);
     color: white;
 }
 
