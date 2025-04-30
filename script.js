@@ -120,7 +120,7 @@ const seconds = document.getElementById('seconds');
 
 const currentYear = new Date().getFullYear();
 
-const newYearTime = new Date (`April 2 ${currentYear + 1} 22:00:00`);
+const newYearTime = new Date (`Juni 18 ${currentYear + 0} 08:00:00`);
 
 setInterval(updateCountdowntime, 1000);
 
