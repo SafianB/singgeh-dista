@@ -73,49 +73,7 @@ body {
 
 }
 
-.countdown {
 
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.25rem;
-    font-family: 'Work Sans', serif;
-}
-
-.countdown div{
-  width: 100px;
-  height: 65px;
-  padding: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  float: left;
-  margin: 10px;
-  background: var(--gold);
-  border: 1px solid rgba(51, 65, 85, 0.6);
-  border-radius: 20rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.05);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  
-    
-}
-
-
-.countdown div h2{
-    display: flex;
-    flex-direction: column;
-    line-height: 1;
-    align-items: center;
-    color: #000;
-}
-
-.countdown div small {
-    font-size: 0.6rem;
-    font-weight: 500;
-    color: black;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-}
 
 
 .mynavbar {
@@ -245,6 +203,57 @@ body {
     border-top:1px solid #999;
     font-size: 1rem;
     font-weight: 0.9rem;
+}
+
+.info h3{
+    text-align: center;
+}
+
+.info .countdown{
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.25rem;
+    font-family: 'Work Sans', serif;
+}
+
+.info .countdown div{
+  width: 100px;
+  height: 65px;
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  float: left;
+  margin: 10px;
+  background: var(--gold);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  border-radius: 20rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+    
+}
+
+
+.info .countdown div h2{
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    align-items: center;
+    color: #000;
+    font-family: 'Work Sans', serif;
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.info .countdown div small {
+    font-size: 0.6rem;
+    font-weight: 500;
+    color: black;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
 }
 
 /* Story */
@@ -561,9 +570,18 @@ footer ul li {
           
         }
         
-        .countdown div{
+        #countdown{
+            margin-top: 15px;
+        }
+
+        #countdown div{
             padding: 20px;
             margin: 5px;
+            width: 60px;
+        }
+
+        .info h3{
+            margin-top: 5px;
         }
 
         .mynavbar .nav-link {
