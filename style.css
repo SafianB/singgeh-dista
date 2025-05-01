@@ -54,7 +54,7 @@ body {
 
 .hero h1 {
     font-family: "Carattere", cursive;
-    font-size: 6rem;
+    font-size: 4rem;
     color: var(--gold);
     
 }
@@ -83,6 +83,7 @@ body {
   
   .img-intro {
     animation: sway 3s infinite;
+    width: 150px;
   }
 
 
