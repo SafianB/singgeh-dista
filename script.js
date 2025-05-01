@@ -109,8 +109,71 @@ window.addEventListener("load", function() {
     });
   });
 
-  // wayang gerak
+  // comment
+  document.addEventListener('DOMContentLoaded', function() {
+    loadComments();
+    
+    document.querySelector('.submit-btn').addEventListener('click', function() {
+      const name = document.querySelector('.name-input').value.trim();
+      const message = document.querySelector('.message-input').value.trim();
+      
+      if (name && message) {
+        addComment(name, message);
+        document.querySelector('.name-input').value = '';
+        document.querySelector('.message-input').value = '';
+      } else {
+        alert('Harap isi nama dan ucapan!');
+      }
+    });
+  });
 
+  function addComment(name, message) {
+    const comment = {
+      name,
+      message,
+      date: new Date().toLocaleString('id-ID')
+    };
+    
+    // Save to local storage
+    const comments = JSON.parse(localStorage.getItem('weddingComments') || '[]');
+    comments.unshift(comment); // Add new comment to beginning
+    localStorage.setItem('weddingComments', JSON.stringify(comments));
+    
+    // Refresh display
+    loadComments();
+  }
+
+  // In your existing code, modify loadComments():
+function loadComments(page = 1, commentsPerPage = 3) {
+  const allComments = JSON.parse(localStorage.getItem('weddingComments') || []);
+  const totalPages = Math.ceil(allComments.length / commentsPerPage);
+  const startIdx = (page - 1) * commentsPerPage;
+  const paginatedComments = allComments.slice(startIdx, startIdx + commentsPerPage);
+  const commentCount = document.querySelector('.comment-count');
+
+  // update comment count
+  commentCount.innerHTML = `Total Ucapan: ${allComments.length}`;
+  commentCount.style.display = allComments.length > 0 ? 'block' : 'none';
+
+  // Display comments
+  document.querySelector('.comments-list').innerHTML = paginatedComments.map(comment => `
+    <div class="comment">
+      <div class="comment-author">${comment.name}</div>
+      <div class="comment-text">${comment.message}</div>
+      <div class="comment-date">${comment.date}</div>
+    </div>
+  `).join('');
+
+  // Add pagination controls
+  document.querySelector('.pagination').innerHTML = `
+    ${page > 1 ? `<button onclick="loadComments(${page - 1})">Previous</button>` : ''}
+    <span>Page ${page} of ${totalPages}</span>
+    ${page < totalPages ? `<button onclick="loadComments(${page + 1})">Next</button>` : ''}
+  `;
+
+
+  }
+  
   
 
 
