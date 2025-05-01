@@ -39,21 +39,21 @@ body {
 }
 
 .hero h4{
-    background-color: rgb(0, 0, 0);
+    /* background-color: rgb(0, 0, 0); */
     font-family: "Combo", serif;
     color: var(--gold);
     border-radius: 10px;
+    /* font-size: 2rem; */
 }
 
-
 .hero p{
-    background-color: rgb(17, 16, 16);
+    /* background-color: rgb(17, 16, 16); */
     border-radius: 10px;
     color: var(--gold);
 }
 
 .hero h1 {
-    font-family: "Caveat", serif;
+    font-family: "Carattere", cursive;
     font-size: 6rem;
     color: var(--gold);
     
@@ -569,6 +569,14 @@ footer ul li {
             font-size: 70%;
           
         }
+
+        .hero p{
+            font-size: 2rem;
+        }
+
+        .hero h1{
+            font-size: 3rem;
+        }
         
         #countdown{
             margin-top: 15px;
@@ -628,6 +636,11 @@ footer ul li {
         .hero img{
             width: 100%;
             height: auto;
+        }
+
+        #hero .img-intro{
+            width: 100px;
+            padding: 10px
         }
 
   }
