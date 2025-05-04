@@ -111,6 +111,11 @@ window.addEventListener("load", function() {
 
   // comment
   document.addEventListener('DOMContentLoaded', function() {
+    // Initialize storage first
+    if (!localStorage.getItem('comments')) {
+      localStorage.setItem('comments', JSON.stringify([]));
+    }
+    // Then load comments
     loadComments();
     
     document.querySelector('.submit-btn').addEventListener('click', function() {
