@@ -109,75 +109,178 @@ window.addEventListener("load", function() {
     });
   });
 
-  // comment
-  document.addEventListener('DOMContentLoaded', function() {
-    // Initialize storage first
-    if (!localStorage.getItem('comments')) {
-      localStorage.setItem('comments', JSON.stringify([]));
-    }
-    // Then load comments
-    loadComments();
-    
-    document.querySelector('.submit-btn').addEventListener('click', function() {
-      const name = document.querySelector('.name-input').value.trim();
-      const message = document.querySelector('.message-input').value.trim();
-      
-      if (name && message) {
-        addComment(name, message);
-        document.querySelector('.name-input').value = '';
-        document.querySelector('.message-input').value = '';
+  // Comments section
+// script.js
+document.addEventListener('DOMContentLoaded', () => {
+  // Load comments from localStorage when the page loads
+  loadComments();
+
+  // Handle comment submission
+  document.getElementById('commentForm').addEventListener('submit', function (event) {
+      event.preventDefault(); // Prevent form submission
+
+      // Get the username and comment from the inputs
+      const usernameInput = document.getElementById('usernameInput');
+      const commentInput = document.getElementById('commentInput');
+      const username = usernameInput.value.trim();
+      const commentText = commentInput.value.trim();
+
+      if (username && commentText) {
+          // Create a new comment object
+          const comment = {
+              id: Date.now(), // Unique ID for the comment
+              username: username,
+              text: commentText,
+              replies: []
+          };
+
+          // Save the comment to localStorage
+          saveComment(comment);
+
+          // Clear the inputs
+          usernameInput.value = "";
+          commentInput.value = "";
+
+          // Reload comments to display the new one
+          loadComments();
       } else {
-        alert('Harap isi nama dan ucapan!');
+          alert("Please fill out both the username and comment fields!");
       }
-    });
   });
+});
 
-  function addComment(name, message) {
-    const comment = {
-      name,
-      message,
-      date: new Date().toLocaleString('id-ID')
-    };
-    
-    // Save to local storage
-    const comments = JSON.parse(localStorage.getItem('weddingComments') || '[]');
-    comments.unshift(comment); // Add new comment to beginning
-    localStorage.setItem('weddingComments', JSON.stringify(comments));
-    
-    // Refresh display
-    loadComments();
+// Function to save a comment to localStorage
+function saveComment(comment) {
+  let comments = JSON.parse(localStorage.getItem('comments')) || [];
+  comments.push(comment);
+  localStorage.setItem('comments', JSON.stringify(comments));
+}
+
+// Function to load comments from localStorage
+function loadComments() {
+  const commentsList = document.getElementById('commentsList');
+  commentsList.innerHTML = ""; // Clear the current comments
+
+  const comments = JSON.parse(localStorage.getItem('comments')) || [];
+
+  comments.forEach(comment => {
+      // Create a new list item for the comment
+      const commentItem = document.createElement('li');
+      commentItem.innerHTML = `
+          <strong>${comment.username}:</strong> ${comment.text}
+          <button class="delete-btn" data-id="${comment.id}" data-type="comment">Delete</button>
+          <button class="reply-btn" data-id="${comment.id}">Reply</button>
+          <div class="reply-section" style="display: none;">
+              <input type="text" class="reply-username" placeholder="Your username">
+              <textarea class="reply-comment" placeholder="Write your reply..."></textarea>
+              <button class="post-reply-btn" data-id="${comment.id}">Post Reply</button>
+          </div>
+          <ul class="repliesList" data-id="${comment.id}"></ul>
+      `;
+
+      // Append the comment to the comments list
+      commentsList.appendChild(commentItem);
+
+      // Load replies for this comment
+      loadReplies(comment.id, commentItem.querySelector('.repliesList'));
+
+      // Add event listener for the reply button
+      const replyBtn = commentItem.querySelector('.reply-btn');
+      const replySection = commentItem.querySelector('.reply-section');
+      replyBtn.addEventListener('click', () => {
+          replySection.style.display = replySection.style.display === 'none' ? 'block' : 'none';
+      });
+
+      // Add event listener for the post reply button
+      const postReplyBtn = commentItem.querySelector('.post-reply-btn');
+      postReplyBtn.addEventListener('click', () => {
+          const replyUsername = commentItem.querySelector('.reply-username').value.trim();
+          const replyComment = commentItem.querySelector('.reply-comment').value.trim();
+
+          if (replyUsername && replyComment) {
+              const reply = {
+                  id: Date.now(), // Unique ID for the reply
+                  username: replyUsername,
+                  text: replyComment
+              };
+
+              // Save the reply to localStorage
+              saveReply(comment.id, reply);
+
+              // Clear the reply inputs
+              commentItem.querySelector('.reply-username').value = "";
+              commentItem.querySelector('.reply-comment').value = "";
+              replySection.style.display = 'none';
+
+              // Reload replies to display the new one
+              loadReplies(comment.id, commentItem.querySelector('.repliesList'));
+          } else {
+              alert("Please fill out both the username and reply fields!");
+          }
+      });
+
+      // Add event listener for the delete button (comment)
+      const deleteBtn = commentItem.querySelector('.delete-btn');
+      deleteBtn.addEventListener('click', () => {
+          deleteComment(comment.id);
+          loadComments(); // Reload comments after deletion
+      });
+  });
+}
+
+// Function to save a reply to localStorage
+function saveReply(commentId, reply) {
+  let comments = JSON.parse(localStorage.getItem('comments')) || [];
+  const comment = comments.find(c => c.id === commentId);
+  if (comment) {
+      comment.replies.push(reply);
+      localStorage.setItem('comments', JSON.stringify(comments));
   }
+}
 
-  // In your existing code, modify loadComments():
-function loadComments(page = 1, commentsPerPage = 3) {
-  const allComments = JSON.parse(localStorage.getItem('weddingComments') || []);
-  const totalPages = Math.ceil(allComments.length / commentsPerPage);
-  const startIdx = (page - 1) * commentsPerPage;
-  const paginatedComments = allComments.slice(startIdx, startIdx + commentsPerPage);
-  const commentCount = document.querySelector('.comment-count');
+// Function to load replies for a comment
+function loadReplies(commentId, repliesList) {
+  repliesList.innerHTML = ""; // Clear the current replies
 
-  // update comment count
-  commentCount.innerHTML = `Total Ucapan: ${allComments.length}`;
-  commentCount.style.display = allComments.length > 0 ? 'block' : 'none';
+  const comments = JSON.parse(localStorage.getItem('comments')) || [];
+  const comment = comments.find(c => c.id === commentId);
 
-  // Display comments
-  document.querySelector('.comments-list').innerHTML = paginatedComments.map(comment => `
-    <div class="comment">
-      <div class="comment-author">${comment.name}</div>
-      <div class="comment-text">${comment.message}</div>
-      <div class="comment-date">${comment.date}</div>
-    </div>
-  `).join('');
+  if (comment && comment.replies) {
+      comment.replies.forEach(reply => {
+          const replyItem = document.createElement('li');
+          replyItem.innerHTML = `
+              <strong>${reply.username}:</strong> ${reply.text}
+              <button class="delete-btn" data-id="${reply.id}" data-commentid="${commentId}" data-type="reply">Delete</button>
+          `;
+          repliesList.appendChild(replyItem);
 
-  // Add pagination controls
-  document.querySelector('.pagination').innerHTML = `
-    ${page > 1 ? `<button onclick="loadComments(${page - 1})">Previous</button>` : ''}
-    <span>Page ${page} of ${totalPages}</span>
-    ${page < totalPages ? `<button onclick="loadComments(${page + 1})">Next</button>` : ''}
-  `;
-
-
+          // Add event listener for the delete button (reply)
+          const deleteBtn = replyItem.querySelector('.delete-btn');
+          deleteBtn.addEventListener('click', () => {
+              deleteReply(commentId, reply.id);
+              loadReplies(commentId, repliesList); // Reload replies after deletion
+          });
+      });
   }
+}
+
+// Function to delete a comment
+function deleteComment(commentId) {
+  let comments = JSON.parse(localStorage.getItem('comments')) || [];
+  comments = comments.filter(c => c.id !== commentId);
+  localStorage.setItem('comments', JSON.stringify(comments));
+}
+
+// Function to delete a reply
+function deleteReply(commentId, replyId) {
+  let comments = JSON.parse(localStorage.getItem('comments')) || [];
+  const comment = comments.find(c => c.id === commentId);
+  if (comment) {
+      comment.replies = comment.replies.filter(r => r.id !== replyId);
+      localStorage.setItem('comments', JSON.stringify(comments));
+  }
+}
+
   
   
 
