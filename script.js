@@ -125,7 +125,7 @@ window.addEventListener("load", function() {
     const paginationElement = document.getElementById('pagination');
 
     // Pagination variables
-    const commentsPerPage = 5;
+    const commentsPerPage = 3;
     let currentPage = 1;
 
     // Load and display comments

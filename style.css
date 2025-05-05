@@ -475,13 +475,13 @@ body {
 }
 
 .rsvp h1 {
-    color: #333;
+    color: var(--gold);
     text-align: center;
     margin-bottom: 10px;
 }
 .subtitle {
     text-align: center;
-    color: #666;
+    color: #fffefe;
     margin-bottom: 30px;
 }
 .comment-count {
