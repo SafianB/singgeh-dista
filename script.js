@@ -125,7 +125,7 @@ window.addEventListener("load", function() {
     const paginationElement = document.getElementById('pagination');
 
     // Pagination variables
-    const commentsPerPage = 3;
+    const commentsPerPage = 2;
     let currentPage = 1;
 
     // Load and display comments
@@ -199,11 +199,11 @@ window.addEventListener("load", function() {
         
         // Previous button
         const prevButton = document.createElement('button');
-        prevButton.textContent = 'Sebelumnya';
+        prevButton.textContent = '<';
         prevButton.disabled = currentPage === 1;
         prevButton.addEventListener('click', () => {
             loadComments(currentPage - 1);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            // window.scrollTo({ top: 0, behavior: 'smooth' });
         });
         paginationElement.appendChild(prevButton);
         
@@ -216,18 +216,18 @@ window.addEventListener("load", function() {
             }
             pageButton.addEventListener('click', () => {
                 loadComments(i);
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                // window.scrollTo({ top: 0, behavior: 'smooth' });
             });
             paginationElement.appendChild(pageButton);
         }
         
         // Next button
         const nextButton = document.createElement('button');
-        nextButton.textContent = 'Selanjutnya';
+        nextButton.textContent = '>';
         nextButton.disabled = currentPage === totalPages;
         nextButton.addEventListener('click', () => {
             loadComments(currentPage + 1);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            // window.scrollTo({ top: 0, behavior: 'smooth' });
         });
         paginationElement.appendChild(nextButton);
     }
@@ -265,7 +265,7 @@ window.addEventListener("load", function() {
         loadComments(1);
         
         // Scroll to top
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
     // Initial load
