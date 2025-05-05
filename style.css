@@ -474,97 +474,97 @@ body {
     border: 1px solid white;
 }
 
-.rsvp .comment-box {
-    background-color: #fff;
+.rsvp h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+}
+.comment-count {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.comment-form {
+    background: white;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    /* width: 400px; */
-    /* margin-left: 50px; */
-    /* height: 100px; */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
 }
-
-.rsvp .comment-box h2{
-    font-size: 2rem;
-    font-family: "Work", serif;
-    font-weight: lighter;
+.form-group {
+    margin-bottom: 15px;
 }
-
-.rsvp h3 {
-    color: var(--pink);
-    font-size: 2rem;
-    font-family: "Work", serif;
-}
-
-.rsvp .comment-form{
-    padding: 10px;
-}
-
-.rsvp input[type="text"], textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 10px;
-    resize: none;
-}
-
-.rsvp textarea {
-    height: 100px;
-}
-
-.rsvp .comment-box button{
+label {
+    display: block;
     margin-bottom: 5px;
-    border-radius: 5px;
+    font-weight: bold;
 }
-
-.rsvp #commentsList {
-    list-style-type: none;
-    padding: 10px;
-}
-
-.rsvp #commentsList li {
-    background-color: #f9f9f9;
+input[type="text"], textarea {
+    width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    margin-bottom: 10px;
+    font-family: inherit;
 }
-
-.rsvp #commentsList li strong {
-    color: var(--pink);
+textarea {
+    min-height: 100px;
+    resize: vertical;
 }
-
-.rsvp .reply-section {
-    margin-top: 40px;
-    margin-left: 20px;
-    border-left: 2px solid #ccc;
-    padding: 10px;
-}
-
-.rsvp .reply-section input[type="text"] {
-    width: calc(100% - 90px);
-    margin-right: 10px;
-}
-
-.rsvp .reply-section button {
-    width: 70px;
-    
-}
-
-.rsvp .delete-btn {
-    background-color: #ff4d4d;
-    color: #fff;
+button {
+    background-color: #4CAF50;
+    color: white;
     border: none;
-    padding: 5px 10px;
+    padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
-    margin-left: 10px;
-    font-size: 12px;
+    font-size: 16px;
 }
-
-.rsvp .delete-btn:hover {
-    background-color: #cc0000;
+button:hover {
+    background-color: #45a049;
+}
+.comments-container {
+    margin-top: 30px;
+}
+.comment {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    position: relative;
+}
+.comment-author {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+.comment-text {
+    margin-bottom: 10px;
+    color: #555;
+    white-space: pre-wrap;
+}
+.comment-date {
+    font-size: 12px;
+    color: #999;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.pagination button {
+    margin: 0 5px;
+    background-color: #f1f1f1;
+    color: black;
+}
+.pagination button.active {
+    background-color: #4CAF50;
+    color: white;
 }
 
 /* gifts */

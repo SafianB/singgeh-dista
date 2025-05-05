@@ -110,176 +110,167 @@ window.addEventListener("load", function() {
   });
 
   // Comments section
-// script.js
-document.addEventListener('DOMContentLoaded', () => {
-  // Load comments from localStorage when the page loads
-  loadComments();
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize comments array in localStorage if it doesn't exist
+    if (!localStorage.getItem('comments')) {
+        localStorage.setItem('comments', JSON.stringify([]));
+    }
 
-  // Handle comment submission
-  document.getElementById('commentForm').addEventListener('submit', function (event) {
-      event.preventDefault(); // Prevent form submission
+    // DOM elements
+    const nameInput = document.getElementById('name');
+    const commentInput = document.getElementById('comment');
+    const submitButton = document.getElementById('submitComment');
+    const commentsContainer = document.getElementById('commentsContainer');
+    const commentCountElement = document.getElementById('commentCount');
+    const paginationElement = document.getElementById('pagination');
 
-      // Get the username and comment from the inputs
-      const usernameInput = document.getElementById('usernameInput');
-      const commentInput = document.getElementById('commentInput');
-      const username = usernameInput.value.trim();
-      const commentText = commentInput.value.trim();
+    // Pagination variables
+    const commentsPerPage = 5;
+    let currentPage = 1;
 
-      if (username && commentText) {
-          // Create a new comment object
-          const comment = {
-              id: Date.now(), // Unique ID for the comment
-              username: username,
-              text: commentText,
-              replies: []
-          };
+    // Load and display comments
+    function loadComments(page = 1) {
+        const comments = JSON.parse(localStorage.getItem('comments')) || [];
+        commentCountElement.textContent = `${comments.length} Comments`;
 
-          // Save the comment to localStorage
-          saveComment(comment);
+        // Calculate pagination
+        const totalPages = Math.ceil(comments.length / commentsPerPage);
+        currentPage = Math.min(page, totalPages);
+        
+        // Display comments for current page
+        const startIndex = (currentPage - 1) * commentsPerPage;
+        const endIndex = startIndex + commentsPerPage;
+        const commentsToShow = comments.slice(startIndex, endIndex).reverse(); // Show newest first
 
-          // Clear the inputs
-          usernameInput.value = "";
-          commentInput.value = "";
+        commentsContainer.innerHTML = '';
+        
+        if (commentsToShow.length === 0) {
+            commentsContainer.innerHTML = '<p>Belum ada ucapan. Jadilah yang pertama!</p>';
+        } else {
+            commentsToShow.forEach(comment => {
+                const commentElement = document.createElement('div');
+                commentElement.className = 'comment';
+                
+                const timeAgo = formatTimeAgo(comment.timestamp);
+                
+                commentElement.innerHTML = `
+                    <div class="comment-author">${comment.name}</div>
+                    <div class="comment-text">${comment.text}</div>
+                    <div class="comment-date">${timeAgo}</div>
+                `;
+                
+                commentsContainer.appendChild(commentElement);
+            });
+        }
 
-          // Reload comments to display the new one
-          loadComments();
-      } else {
-          alert("Please fill out both the username and comment fields!");
-      }
-  });
+        // Update pagination buttons
+        updatePaginationButtons(totalPages);
+    }
+
+    // Format timestamp as "X time ago"
+    function formatTimeAgo(timestamp) {
+        const now = new Date();
+        const commentDate = new Date(timestamp);
+        const seconds = Math.floor((now - commentDate) / 1000);
+        
+        let interval = Math.floor(seconds / 31536000);
+        if (interval >= 1) return `${interval} tahun lalu`;
+        
+        interval = Math.floor(seconds / 2592000);
+        if (interval >= 1) return `${interval} bulan lalu`;
+        
+        interval = Math.floor(seconds / 86400);
+        if (interval >= 1) return `${interval} hari lalu`;
+        
+        interval = Math.floor(seconds / 3600);
+        if (interval >= 1) return `${interval} jam lalu`;
+        
+        interval = Math.floor(seconds / 60);
+        if (interval >= 1) return `${interval} menit lalu`;
+        
+        return `${Math.floor(seconds)} detik lalu`;
+    }
+
+    // Update pagination buttons
+    function updatePaginationButtons(totalPages) {
+        paginationElement.innerHTML = '';
+        
+        if (totalPages <= 1) return;
+        
+        // Previous button
+        const prevButton = document.createElement('button');
+        prevButton.textContent = 'Sebelumnya';
+        prevButton.disabled = currentPage === 1;
+        prevButton.addEventListener('click', () => {
+            loadComments(currentPage - 1);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        paginationElement.appendChild(prevButton);
+        
+        // Page buttons
+        for (let i = 1; i <= totalPages; i++) {
+            const pageButton = document.createElement('button');
+            pageButton.textContent = i;
+            if (i === currentPage) {
+                pageButton.classList.add('active');
+            }
+            pageButton.addEventListener('click', () => {
+                loadComments(i);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            paginationElement.appendChild(pageButton);
+        }
+        
+        // Next button
+        const nextButton = document.createElement('button');
+        nextButton.textContent = 'Selanjutnya';
+        nextButton.disabled = currentPage === totalPages;
+        nextButton.addEventListener('click', () => {
+            loadComments(currentPage + 1);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        paginationElement.appendChild(nextButton);
+    }
+
+    // Handle form submission
+    submitButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        const name = nameInput.value.trim();
+        const commentText = commentInput.value.trim();
+        
+        if (name === '' || commentText === '') {
+            alert('Nama dan ucapan harus diisi!');
+            return;
+        }
+        
+        // Get existing comments
+        const comments = JSON.parse(localStorage.getItem('comments')) || [];
+        
+        // Add new comment
+        const newComment = {
+            name: name,
+            text: commentText,
+            timestamp: new Date().toISOString()
+        };
+        
+        comments.push(newComment);
+        localStorage.setItem('comments', JSON.stringify(comments));
+        
+        // Clear form
+        nameInput.value = '';
+        commentInput.value = '';
+        
+        // Reload comments (show first page)
+        loadComments(1);
+        
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Initial load
+    loadComments();
 });
-
-// Function to save a comment to localStorage
-function saveComment(comment) {
-  let comments = JSON.parse(localStorage.getItem('comments')) || [];
-  comments.push(comment);
-  localStorage.setItem('comments', JSON.stringify(comments));
-}
-
-// Function to load comments from localStorage
-function loadComments() {
-  const commentsList = document.getElementById('commentsList');
-  commentsList.innerHTML = ""; // Clear the current comments
-
-  const comments = JSON.parse(localStorage.getItem('comments')) || [];
-
-  comments.forEach(comment => {
-      // Create a new list item for the comment
-      const commentItem = document.createElement('li');
-      commentItem.innerHTML = `
-          <strong>${comment.username}:</strong> ${comment.text}
-          <button class="delete-btn" data-id="${comment.id}" data-type="comment">Delete</button>
-          <button class="reply-btn" data-id="${comment.id}">Reply</button>
-          <div class="reply-section" style="display: none;">
-              <input type="text" class="reply-username" placeholder="Your username">
-              <textarea class="reply-comment" placeholder="Write your reply..."></textarea>
-              <button class="post-reply-btn" data-id="${comment.id}">Post Reply</button>
-          </div>
-          <ul class="repliesList" data-id="${comment.id}"></ul>
-      `;
-
-      // Append the comment to the comments list
-      commentsList.appendChild(commentItem);
-
-      // Load replies for this comment
-      loadReplies(comment.id, commentItem.querySelector('.repliesList'));
-
-      // Add event listener for the reply button
-      const replyBtn = commentItem.querySelector('.reply-btn');
-      const replySection = commentItem.querySelector('.reply-section');
-      replyBtn.addEventListener('click', () => {
-          replySection.style.display = replySection.style.display === 'none' ? 'block' : 'none';
-      });
-
-      // Add event listener for the post reply button
-      const postReplyBtn = commentItem.querySelector('.post-reply-btn');
-      postReplyBtn.addEventListener('click', () => {
-          const replyUsername = commentItem.querySelector('.reply-username').value.trim();
-          const replyComment = commentItem.querySelector('.reply-comment').value.trim();
-
-          if (replyUsername && replyComment) {
-              const reply = {
-                  id: Date.now(), // Unique ID for the reply
-                  username: replyUsername,
-                  text: replyComment
-              };
-
-              // Save the reply to localStorage
-              saveReply(comment.id, reply);
-
-              // Clear the reply inputs
-              commentItem.querySelector('.reply-username').value = "";
-              commentItem.querySelector('.reply-comment').value = "";
-              replySection.style.display = 'none';
-
-              // Reload replies to display the new one
-              loadReplies(comment.id, commentItem.querySelector('.repliesList'));
-          } else {
-              alert("Please fill out both the username and reply fields!");
-          }
-      });
-
-      // Add event listener for the delete button (comment)
-      const deleteBtn = commentItem.querySelector('.delete-btn');
-      deleteBtn.addEventListener('click', () => {
-          deleteComment(comment.id);
-          loadComments(); // Reload comments after deletion
-      });
-  });
-}
-
-// Function to save a reply to localStorage
-function saveReply(commentId, reply) {
-  let comments = JSON.parse(localStorage.getItem('comments')) || [];
-  const comment = comments.find(c => c.id === commentId);
-  if (comment) {
-      comment.replies.push(reply);
-      localStorage.setItem('comments', JSON.stringify(comments));
-  }
-}
-
-// Function to load replies for a comment
-function loadReplies(commentId, repliesList) {
-  repliesList.innerHTML = ""; // Clear the current replies
-
-  const comments = JSON.parse(localStorage.getItem('comments')) || [];
-  const comment = comments.find(c => c.id === commentId);
-
-  if (comment && comment.replies) {
-      comment.replies.forEach(reply => {
-          const replyItem = document.createElement('li');
-          replyItem.innerHTML = `
-              <strong>${reply.username}:</strong> ${reply.text}
-              <button class="delete-btn" data-id="${reply.id}" data-commentid="${commentId}" data-type="reply">Delete</button>
-          `;
-          repliesList.appendChild(replyItem);
-
-          // Add event listener for the delete button (reply)
-          const deleteBtn = replyItem.querySelector('.delete-btn');
-          deleteBtn.addEventListener('click', () => {
-              deleteReply(commentId, reply.id);
-              loadReplies(commentId, repliesList); // Reload replies after deletion
-          });
-      });
-  }
-}
-
-// Function to delete a comment
-function deleteComment(commentId) {
-  let comments = JSON.parse(localStorage.getItem('comments')) || [];
-  comments = comments.filter(c => c.id !== commentId);
-  localStorage.setItem('comments', JSON.stringify(comments));
-}
-
-// Function to delete a reply
-function deleteReply(commentId, replyId) {
-  let comments = JSON.parse(localStorage.getItem('comments')) || [];
-  const comment = comments.find(c => c.id === commentId);
-  if (comment) {
-      comment.replies = comment.replies.filter(r => r.id !== replyId);
-      localStorage.setItem('comments', JSON.stringify(comments));
-  }
-}
 
   
   

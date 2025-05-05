@@ -363,17 +363,28 @@
 
       <div class="row justify-content-center mt-5">
         <div class="col-md-6">
-          <div class="comment-box">
-            <h2>Leave a Comment</h2>
-            <form id="commentForm" class="comment-form">
-                <input type="text" id="usernameInput" placeholder="Name" required>
-                <textarea id="commentInput" placeholder="Write your comment here..." required></textarea>
-                <button type="submit">Post Comment</button>
-            </form>
-            <div id="commentsSection" class="comments-section">
-                <h3>Comments</h3>
-                <ul id="commentsList"></ul>
-            </div>
+          <h1>Ucapkan Sesuatu</h1>
+          <p class="subtitle">Berikan Ucapan & Doa Restu</p>
+          <div class="comment-count" id="commentCount">0 Comments</div>
+          <div class="comment-form">
+              <div class="form-group">
+                  <label for="name">Nama</label>
+                  <input type="text" id="name" placeholder="Nama Anda" required>
+              </div>
+              <div class="form-group">
+                  <label for="comment">Ucapan</label>
+                  <textarea id="comment" placeholder="Tulis ucapan Anda di sini..." required></textarea>
+              </div>
+              <button id="submitComment">Kirim</button>
+          </div>
+    
+          <div class="comments-container" id="commentsContainer">
+              <!-- Comments will be loaded here -->
+          </div>
+          
+          <div class="pagination" id="pagination">
+              <!-- Pagination buttons will be added here -->
+          </div>
         </div>
       </div>
 
