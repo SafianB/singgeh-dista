@@ -122,7 +122,7 @@ body {
 
 .home h2{
     color: var(--pink);
-    font-family: "Caveat", serif;
+    font-family: "Goudy Bookletter 1911", serif;
     font-size: 5rem;
     font-weight: bold;
 }
@@ -144,7 +144,7 @@ body {
 }
 
 .home .couple h3{
-    font-family: "Caveat", serif;
+    font-family: "Carattere", cursive;
     font-size: 2.4rem;
     color: var(--pink);
 }
@@ -182,7 +182,7 @@ body {
 
 .info h2{
     color: var(--gold);
-    font-family: "Caveat", serif;
+    font-family: "Goudy Bookletter 1911", serif;
     font-size: 5rem;
     font-weight: bold;
 
@@ -292,7 +292,7 @@ body {
 
 .story h2{
     color: #aa8105;
-    font-family: "Caveat", serif;
+    font-family: "Goudy Bookletter 1911", serif;
     font-size: 5rem;
     font-weight: bold;
 }
@@ -429,7 +429,7 @@ body {
 
 .gallery h2{
     color: var(--pink);
-    font-family: "Caveat", serif;
+    font-family: "Goudy Bookletter 1911", serif;
     font-size: 5rem;
     font-weight: bold;
 }
@@ -446,7 +446,7 @@ body {
 
 .rsvp h2{
     color: var(--gold);
-    font-family: "Caveat", serif;
+    font-family: "Goudy Bookletter 1911", serif;
     font-size: 4.5rem;
     font-weight: bold;
 }
@@ -478,6 +478,7 @@ body {
     color: var(--gold);
     text-align: center;
     margin-bottom: 10px;
+    font-family: "Goudy Bookletter 1911", serif;
 }
 .subtitle {
     text-align: center;
@@ -580,7 +581,7 @@ button:hover {
 
 .gifts h2{
     color: var(--gold);
-    font-family: "Caveat", serif;
+    font-family: "Goudy Bookletter 1911", serif;
     font-size: 4.5rem;
     font-weight: bold;
 }
